@@ -1,0 +1,21 @@
+{
+    "name": "mpftavares/farm_backoffice_oop",
+    "autoload": {
+        "psr-4": {
+            "Mpftavares\\FarmBackofficeOop\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mpftavares",
+            "email": "marianatavares@live.com.pt"
+        }
+    ],
+    "scripts": {
+        "dev:server": "php -S localhost:8000 -t public/"
+    },
+    "require": {},
+    "config": {
+        "process-timeout": 0
+    }
+}
