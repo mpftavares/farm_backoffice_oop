@@ -30,4 +30,9 @@ class Request {
 
         // substitui $_SESSION['user'] = $user;
     }
+
+    public static function isPost()
+    {
+        return $_SERVER['REQUEST_METHOD'] === 'POST';
+    }
 }

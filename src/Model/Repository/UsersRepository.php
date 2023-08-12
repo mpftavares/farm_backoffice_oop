@@ -2,9 +2,9 @@
 
 namespace Mpftavares\FarmBackofficeOop\Model\Repository;
 
-use Exception;
 use PDOException;
 use Mpftavares\FarmBackofficeOop\Core\Database;
+use Mpftavares\FarmBackofficeOop\Core\Exception\InternalServerErrorException;
 
 class UsersRepository extends Database
 {
@@ -26,7 +26,8 @@ class UsersRepository extends Database
             ]);
         } catch (PDOException $e) {
             // $this->logAccess('failed to create user');
-            throw new Exception('Error', 500);
+            // throw new Exception('Error', 500);
+            throw new InternalServerErrorException();
         }
     }
 }

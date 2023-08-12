@@ -13,7 +13,7 @@ class SalesController extends SecuredController
 
     public function __construct()
     {
-        // parent::__construct(); // é no parent que está implementada a autenticação
+        parent::__construct(); // é no parent que está implementada a autenticação
         $this->service = new SalesService();
     }
 
@@ -44,16 +44,14 @@ class SalesController extends SecuredController
             $sale = $this->service->createSale($name, $description, $starts, $ends, $image);
             FlashBag::add('Sale created');
 
-            $this->redirect('/sales/detail?id=' . $sale->id);
+            $this->redirect('/sales/' . $sale->id);
         }
 
         $this->render('sales/form');
     }
 
-    public function edit()
+    public function edit(int $id)
     {
-        // $id = $_GET['id'];
-        $id = Request::get('id');
         $sale = $this->service->getSaleById($id);
 
         if (is_null($sale)) {
@@ -71,19 +69,18 @@ class SalesController extends SecuredController
 
             $sale = $this->service->updateSale($id, $name, $description, $starts, $ends, $image);
 
-            $this->redirect('/sales/detail?id=' . $sale->id);
-        }
+            FlashBag::add('Sale updated');
 
-        FlashBag::add('Sale updated');
+            $this->redirect('/sales/' . $sale->id);
+        }
 
         $this->render('sales/form', [
             'sale' => $sale
         ]);
     }
 
-    public function delete()
+    public function delete(int $id)
     {
-        $id = Request::get('id');
 
         $this->service->removeSale($id);
 
@@ -92,9 +89,8 @@ class SalesController extends SecuredController
         $this->redirect('/sales/list');
     }
 
-    public function detail()
+    public function detail(int $id)
     {
-        $id = Request::get('id');
         $sale = $this->service->getSaleById($id);
 
         if (is_null($sale)) {

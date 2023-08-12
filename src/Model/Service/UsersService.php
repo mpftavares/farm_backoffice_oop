@@ -2,8 +2,8 @@
 
 namespace Mpftavares\FarmBackofficeOop\Model\Service;
 
-use Exception;
 use Mpftavares\FarmBackofficeOop\Core\Database;
+use Mpftavares\FarmBackofficeOop\Core\Exception\UnauthorizedException;
 use Mpftavares\FarmBackofficeOop\Core\Logger;
 use Mpftavares\FarmBackofficeOop\Core\Request;
 use Mpftavares\FarmBackofficeOop\Model\Repository\UsersRepository;
@@ -22,7 +22,8 @@ class UsersService extends Database
         $user = $this->repository->getUserByUsername($username);
 
         if (is_null($user) || !password_verify($password, $user->password)) {
-            throw new Exception('Bad credentials', 401);
+            // throw new Exception('Bad credentials', 401);
+            throw new UnauthorizedException('Bad credentials');
         }
 
         // $_SESSION['user'] = $user;

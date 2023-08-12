@@ -26,12 +26,12 @@
 
 <div class="card-footer d-flex mb-5">
 	<a
-		href="/sales/edit?id=<?= $sale->id ?>"
+		href="/sales/<?= $sale->id ?>/edit"
 		class="btn btn-secondary w-100"
 		>Editar</a
 	>
 	<a
-		href="/sales/delete?id=<?= $sale->id ?>"
+		href="/sales/<?= $sale->id ?>/delete"
 		class="btn btn-danger w-100"
 		id="removeLink"
 		onclick="return confirm('Tem a certeza que pretende remover a campanha?')"

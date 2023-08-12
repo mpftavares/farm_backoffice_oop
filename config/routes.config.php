@@ -1,34 +1,37 @@
 <?php return [
 
-'/login'      => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\AuthController', 'action' => 'login'],
-'/register'   => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\AuthController', 'action' => 'register'],
-'/logout'     => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\AuthController', 'action' => 'logout'],
+    // 'router' => 'endpoint'
+    // 'route' => 'controller::action'
 
-'/dashboard'    => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\DashController', 'action' => 'dashboard'],
+    '/login'      =>
+    'Mpftavares\FarmBackofficeOop\Controller\AuthController::login',
+    '/register'   =>
+    'Mpftavares\FarmBackofficeOop\Controller\AuthController::register',
+    '/logout'     =>
+    'Mpftavares\FarmBackofficeOop\Controller\AuthController::logout',
 
-'/sales/list'        => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\SalesController', 'action' => 'list'],
-'/sales/detail'      => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\SalesController', 'action' => 'detail'],
-'/sales/create'      => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\SalesController', 'action' => 'create'],
-'/sales/edit'        => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\SalesController', 'action' => 'edit'],
-'/sales/delete'      => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\SalesController', 'action' => 'delete'],
+    '/dashboard'    =>
+    'Mpftavares\FarmBackofficeOop\Controller\DashController::dashboard',
 
-'/services/list'        => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\ServicesController', 'action' => 'list'],
-'/services/detail'      => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\ServicesController', 'action' => 'detail'],
-'/services/create'      => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\ServicesController', 'action' => 'create'],
-'/services/edit'        => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\ServicesController', 'action' => 'edit'],
-'/services/delete'      => 
-['controller' => 'Mpftavares\FarmBackofficeOop\Controller\ServicesController', 'action' => 'delete'],
+    '/sales/list'        =>
+    'Mpftavares\FarmBackofficeOop\Controller\SalesController::list',
+    '/sales/:id'      =>
+    'Mpftavares\FarmBackofficeOop\Controller\SalesController::detail',
+    '/sales/create'      =>
+    'Mpftavares\FarmBackofficeOop\Controller\SalesController::create',
+    '/sales/:id/edit'        =>
+    'Mpftavares\FarmBackofficeOop\Controller\SalesController::edit',
+    '/sales/:id/delete'      =>
+    'Mpftavares\FarmBackofficeOop\Controller\SalesController::delete',
+
+    '/services/list'        =>
+    'Mpftavares\FarmBackofficeOop\Controller\ServicesController::list',
+    '/services/:id'      =>
+    'Mpftavares\FarmBackofficeOop\Controller\ServicesController::detail',
+    '/services/create'      =>
+    'Mpftavares\FarmBackofficeOop\Controller\ServicesController::create',
+    '/services/:id/edit'        =>
+    'Mpftavares\FarmBackofficeOop\Controller\ServicesController::edit',
+    '/services/:id/delete'      =>
+    'Mpftavares\FarmBackofficeOop\Controller\ServicesController::delete'
 ];

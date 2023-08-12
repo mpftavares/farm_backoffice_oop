@@ -1,7 +1,10 @@
 <?php namespace Mpftavares\FarmBackofficeOop\Core;
 
 use Exception;
+use Mpftavares\FarmBackofficeOop\Core\Exception\HttpException;
+use Mpftavares\FarmBackofficeOop\Core\Exception\InternalServerErrorException;
 use ReflectionClass;
+use ReflectionException;
 
 class Application {
 
@@ -17,31 +20,48 @@ class Application {
         try {
             $route = $this->router->getRoute($path);
             $this->callAction($route);
-        } catch (Exception $e) {
+        } catch (HttpException $e) {
             $this->showError($e);
         }
     }
 
-    private function callAction(array $route): void {
-        extract($route); // extrai controller e action do route
-
-        $reflector = new ReflectionClass($controller);
-
-        if (!$reflector->isInstantiable()) {
-            throw new Exception('Internal Server Error', 500); // uma classe abstracta não é instanciável
+    private function callAction(Route $route): void {
+        if ($route->isCallable()) { // verifica que estou a adicionar uma função para ser executada em vez de um controlador
+            $action = $route->getCallable();
+            $action($route->getData());
+            return;
         }
 
-        $instance = $reflector->newInstance();
-        $method = $reflector->getMethod($action);
+        $controller = $route->getController();
+        $action = $route->getAction();
 
-        $method->invoke($instance);
+        try {
+            $reflector = new ReflectionClass($controller);
+
+            if (!$reflector->isInstantiable()) {
+                throw new InternalServerErrorException();
+            }
+
+            $instance = $reflector->newInstance();
+            $method = $reflector->getMethod($action);
+
+            if ($route->hasData()) {
+                $method->invokeArgs($instance, $route->getData());
+
+            } else {
+                $method->invoke($instance);
+            }
+
+        } catch (ReflectionException $e) {
+            throw new InternalServerErrorException($e->getMessage());
+        }
     }
 
     private function showError(Exception $e): void {
         $code = $e->getCode();
         $message = $e->getMessage();
 
-        header("HTTP/1.1 $code $message");
+        Response::status($code, $message);
         die("$code $message");
     }
 

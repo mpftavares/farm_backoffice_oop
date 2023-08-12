@@ -2,7 +2,7 @@
 
 namespace Mpftavares\FarmBackofficeOop\Core;
 
-use Exception;
+use Mpftavares\FarmBackofficeOop\Core\Exception\NotFoundException;
 
 class Router
 {
@@ -17,17 +17,55 @@ class Router
         }
     }
 
-    public function addRoute(array $route)
+    public function addRoute(string $endpoint, Route | callable $route): void // só se quisermos adicionar rotas manuais porque nesta app existe o ficheiro routes.config
     {
-        $this->routes[] = $route;
+        if (!isset($this->routes[$endpoint])) {
+            $this->routes[$endpoint] = is_callable($route) ? $route : sprintf('%s::%s', $route->getController(), $route->getAction());
+        }
     }
 
     public function getRoute(string $path)
     {
-        if (!isset($this->routes[$path])) {
-            throw new Exception('Not Found', 404);
+
+        if (strpos($path, ':') === false && isset($this->routes[$path])) {
+
+            return new Route($this->routes[$path]);
+            
+        } else {    
+               
+            // (strpos($path, ':') === true significa que temos segmentos dinâmicos 
+
+            $segments = explode('/', $path);
+
+            $segmentsCount = count($segments);
+
+            $routeData = [];
+
+            foreach ($this->routes as $key => $value) {
+                $routeSegments = explode('/', $key);
+
+                if ($segmentsCount === count($routeSegments)) {
+                    $match = true;
+
+                    for ($i = 0; $i < $segmentsCount; $i++) {
+                        if (isset($routeSegments[$i][0]) && $routeSegments[$i][0] === ':') { // verifica se existe segmento dinâmico
+                            $routeData[substr($routeSegments[$i], 1)] = $segments[$i]; //ignora os :
+                            continue;
+                        }
+
+                        if ($segments[$i] !== $routeSegments[$i]) {
+                            $match = false;
+                            break;
+                        }
+                    }
+
+                    if ($match) {
+                        return new Route($value, $routeData);
+                    }
+                }
+            }
         }
 
-        return $this->routes[$path];
+        throw new NotFoundException();
     }
 }

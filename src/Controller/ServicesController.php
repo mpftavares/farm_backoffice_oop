@@ -7,12 +7,14 @@ use Mpftavares\FarmBackofficeOop\Core\Request;
 use Mpftavares\FarmBackofficeOop\Core\SecuredController;
 use Mpftavares\FarmBackofficeOop\Model\Service\ServicesService;
 
-class ServicesController extends SecuredController {
-private ServicesService $service;
+class ServicesController extends SecuredController
+{
+
+    private ServicesService $service;
 
     public function __construct()
     {
-        // parent::__construct(); // é no parent que está implementada a autenticação
+        parent::__construct(); // é no parent que está implementada a autenticação
         $this->service = new ServicesService();
     }
 
@@ -42,16 +44,14 @@ private ServicesService $service;
 
             FlashBag::add('Service created');
 
-            $this->redirect('/services/detail?id=' . $service->id);
+            $this->redirect('/services/i' . $service->id);
         }
 
         $this->render('services/form');
     }
 
-    public function edit()
+    public function edit(int $id)
     {
-        // $id = $_GET['id'];
-        $id = Request::get('id');
         $service = $this->service->getServiceById($id);
 
         if (is_null($service)) {
@@ -67,7 +67,7 @@ private ServicesService $service;
 
             $service = $this->service->updateService($id, $name, $description, $image);
 
-            $this->redirect('/services/detail?id=' . $service->id);
+            $this->redirect('/services/' . $service->id);
         }
 
         FlashBag::add('Service updated');
@@ -77,10 +77,8 @@ private ServicesService $service;
         ]);
     }
 
-    public function delete()
+    public function delete(int $id)
     {
-        $id = Request::get('id');
-
         $this->service->removeService($id);
 
         FlashBag::add('Service removed');
@@ -88,9 +86,8 @@ private ServicesService $service;
         $this->redirect('/services/list');
     }
 
-    public function detail()
+    public function detail(int $id)
     {
-        $id = Request::get('id');
         $service = $this->service->getServiceById($id);
 
         if (is_null($service)) {
