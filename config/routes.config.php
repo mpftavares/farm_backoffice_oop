@@ -33,5 +33,8 @@
     '/services/:id/edit'        =>
     'Mpftavares\FarmBackofficeOop\Controller\ServicesController::edit',
     '/services/:id/delete'      =>
-    'Mpftavares\FarmBackofficeOop\Controller\ServicesController::delete'
+    'Mpftavares\FarmBackofficeOop\Controller\ServicesController::delete',
+
+    '/users/list' =>     'Mpftavares\FarmBackofficeOop\Controller\UsersController::list',
+    '/users/:id/delete' =>     'Mpftavares\FarmBackofficeOop\Controller\UsersController::delete',
 ];

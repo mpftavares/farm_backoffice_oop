@@ -21,7 +21,7 @@ class SalesController extends SecuredController
     {
         $search = Request::get('search');
 
-        $sales = $this->service->getAllSales($search);
+        $sales = $this->service->all($search);
 
         $this->render('sales/list', [
             'sales' => $sales
@@ -41,7 +41,7 @@ class SalesController extends SecuredController
             // ['image' => $image] = $_FILES;
             $image = Request::file('image');
 
-            $sale = $this->service->createSale($name, $description, $starts, $ends, $image);
+            $sale = $this->service->create($name, $description, $starts, $ends, $image);
             FlashBag::add('Sale created');
 
             $this->redirect('/sales/' . $sale->id);
@@ -52,7 +52,7 @@ class SalesController extends SecuredController
 
     public function edit(int $id)
     {
-        $sale = $this->service->getSaleById($id);
+        $sale = $this->service->get($id);
 
         if (is_null($sale)) {
             FlashBag::add('Sale not found');
@@ -67,7 +67,7 @@ class SalesController extends SecuredController
 
             $image = Request::file('image');
 
-            $sale = $this->service->updateSale($id, $name, $description, $starts, $ends, $image);
+            $sale = $this->service->edit($id, $name, $description, $starts, $ends, $image);
 
             FlashBag::add('Sale updated');
 
@@ -82,7 +82,7 @@ class SalesController extends SecuredController
     public function delete(int $id)
     {
 
-        $this->service->removeSale($id);
+        $this->service->remove($id);
 
         FlashBag::add('Sale removed');
 
@@ -91,7 +91,7 @@ class SalesController extends SecuredController
 
     public function detail(int $id)
     {
-        $sale = $this->service->getSaleById($id);
+        $sale = $this->service->get($id);
 
         if (is_null($sale)) {
             FlashBag::add('Sale not found');

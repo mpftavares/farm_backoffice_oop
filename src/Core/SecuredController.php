@@ -2,6 +2,8 @@
 
 namespace Mpftavares\FarmBackofficeOop\Core;
 
+use Mpftavares\FarmBackofficeOop\Model\Service\UsersService;
+
 abstract class SecuredController extends Controller
 {
 

@@ -58,7 +58,7 @@ class AuthController extends Controller
             $password = Request::post('password');
             $name = Request::post('name');
 
-            $this->service->createUser($name, $username, $password);
+            $this->service->create($name, $username, $password);
 
             FlashBag::add('Success');
 

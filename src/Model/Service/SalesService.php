@@ -14,29 +14,29 @@ class SalesService extends Database
         $this->repository = new SalesRepository();
     }
 
-    public function createSale(string $name, string $description, string $starts, string $ends, array $imageFile): ?object
+    public function create(string $name, string $description, string $starts, string $ends, array $imageFile): ?object
     {
-        return $this->repository->createSale($name, $description, $starts, $ends, $imageFile);
+        return $this->repository->create($name, $description, $starts, $ends, $imageFile);
     }
 
-    public function getAllSales(string $filter = null): array
+    public function all(string $filter = null): array
     {
-        return $this->repository->getAllSales($filter);
+        return $this->repository->all($filter);
     }
 
-    public function getSaleById(string $id): ?object
+    public function get(string $id): ?object
     {
-        return $this->repository->getSaleById($id);
+        return $this->repository->get($id);
     }
 
-    public function updateSale(string $id, string $name, string $description, string $starts, string $ends, array $imageFile): ?object
+    public function edit(string $id, string $name, string $description, string $starts, string $ends, array $imageFile): ?object
     {
-        return $this->repository->updateSale($id,$name, $description, $starts, $ends, $imageFile);
+        return $this->repository->edit($id, $name, $description, $starts, $ends, $imageFile);
     }
 
-    public function removeSale(string $id): bool
+    public function remove(string $id): bool
     {
-        return $this->repository->removeSale($id);
+        return $this->repository->remove($id);
     }
 
 }

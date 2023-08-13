@@ -10,7 +10,7 @@ class ServicesRepository extends Database
 
     const TABLE = 'services';
 
-    public function createService(string $name, string $description, array $imageFile): ?object
+    public function create(string $name, string $description, array $imageFile): ?object
     {
         $image = $this->uploadImage($imageFile);
 
@@ -25,7 +25,7 @@ class ServicesRepository extends Database
 
         Logger::info('services', "created $name $id service");
 
-        return $this->getServiceById($id);
+        return $this->get($id);
     }
 
     public function uploadImage(array $file): ?string
@@ -40,7 +40,7 @@ class ServicesRepository extends Database
         return null;
     }
 
-    public function getAllServices(string $filter = null): array
+    public function all(string $filter = null): array
     {
         $sql = "SELECT * FROM services";
         $data = [];
@@ -56,7 +56,7 @@ class ServicesRepository extends Database
         return $stmt->fetchAll();
     }
 
-    public function getServiceById(string $id): ?object
+    public function get(string $id): ?object
     {
         $service = $this->select(self::TABLE, [
             'id' => $id
@@ -65,7 +65,7 @@ class ServicesRepository extends Database
         return isset($service[0]) ? $service[0] : null; // porque select retorna uma array
     }
 
-    public function updateService(string $id, string $name, string $description, array $imageFile): ?object
+    public function edit(string $id, string $name, string $description, array $imageFile): ?object
     {
         $data = [
             'id' => $id,
@@ -82,18 +82,18 @@ class ServicesRepository extends Database
 
         Logger::info('services', "updated $name $id service");
 
-        return $this->getServiceById($id);
+        return $this->get($id);
     }
 
-    public function removeService(string $id): bool
+    public function remove(string $id): bool
     {
-        $service = $this->getServiceById($id);
+        $service = $this->get($id);
 
         if (!empty($service->image)) {
             unlink($service->image);
         }
 
-        $stmt = $this->delete(self::TABLE,[
+        $stmt = $this->delete(self::TABLE, [
             'id' => $id
         ]);
 
@@ -101,5 +101,4 @@ class ServicesRepository extends Database
 
         return $stmt->rowCount() > 0; // porque removeService devolve uma PDOStatment
     }
-
 }

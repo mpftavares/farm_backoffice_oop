@@ -6,7 +6,6 @@ use Mpftavares\FarmBackofficeOop\Core\Exception\InternalServerErrorException;
 
 class View
 {
-
     public static function render(string $name, array $data = null, bool $layout = true): void
     {
         $path = "../views/$name.phtml";
@@ -16,12 +15,15 @@ class View
             die('View not found');
         }
 
+        if (!is_null(Request::session('user'))) {
+            $data['admin'] = AdminController::isAdmin();
+        }
+
         $data['bag'] = FlashBag::has() ? FlashBag::get() : [];
 
         if (!is_null($data)) {
             extract($data);
         }
-
 
         if ($layout) {
             include "../views/common/header.phtml";

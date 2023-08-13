@@ -22,7 +22,7 @@ class ServicesController extends SecuredController
     {
         $search = Request::get('search');
 
-        $services = $this->service->getAllServices($search);
+        $services = $this->service->all($search);
 
         $this->render('services/list', [
             'services' => $services
@@ -40,11 +40,11 @@ class ServicesController extends SecuredController
             // ['image' => $image] = $_FILES;
             $image = Request::file('image');
 
-            $service = $this->service->createService($name, $description, $image);
+            $service = $this->service->create($name, $description, $image);
 
             FlashBag::add('Service created');
 
-            $this->redirect('/services/i' . $service->id);
+            $this->redirect('/services/' . $service->id);
         }
 
         $this->render('services/form');
@@ -52,7 +52,7 @@ class ServicesController extends SecuredController
 
     public function edit(int $id)
     {
-        $service = $this->service->getServiceById($id);
+        $service = $this->service->get($id);
 
         if (is_null($service)) {
             FlashBag::add('Service not found');
@@ -65,7 +65,7 @@ class ServicesController extends SecuredController
 
             $image = Request::file('image');
 
-            $service = $this->service->updateService($id, $name, $description, $image);
+            $service = $this->service->edit($id, $name, $description, $image);
 
             $this->redirect('/services/' . $service->id);
         }
@@ -79,7 +79,7 @@ class ServicesController extends SecuredController
 
     public function delete(int $id)
     {
-        $this->service->removeService($id);
+        $this->service->remove($id);
 
         FlashBag::add('Service removed');
 
@@ -88,7 +88,7 @@ class ServicesController extends SecuredController
 
     public function detail(int $id)
     {
-        $service = $this->service->getServiceById($id);
+        $service = $this->service->get($id);
 
         if (is_null($service)) {
             FlashBag::add('Service not found');

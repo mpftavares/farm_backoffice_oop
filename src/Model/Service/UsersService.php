@@ -19,7 +19,7 @@ class UsersService extends Database
 
     function login(string $username, string $password): void
     {
-        $user = $this->repository->getUserByUsername($username);
+        $user = $this->repository->username($username);
 
         if (is_null($user) || !password_verify($password, $user->password)) {
             // throw new Exception('Bad credentials', 401);
@@ -28,12 +28,12 @@ class UsersService extends Database
 
         // $_SESSION['user'] = $user;
         Request::session('user', $user);
-        Logger::info('users', "logged in");        
+        Logger::info('users', "logged in");
     }
 
-    function createUser(string $name, string $username, string $password): void
+    function create(string $name, string $username, string $password): void
     {
-        $this->repository->createUser($name, $username, $password);
+        $this->repository->create($name, $username, $password);
     }
 
     function logout(): void
@@ -42,6 +42,20 @@ class UsersService extends Database
 
         session_start();
         unset($_SESSION['user']);
+    }
+
+    function all($filter = null): array
+    {
+        return $this->repository->all($filter);
+    }
+
+    public function remove(string $id): bool
+    {
+        return $this->repository->remove($id);
+    }
+
+    public function edit(string $id, ?string $role): void {
+        $this->repository->edit($id, $role);
     }
 
 }

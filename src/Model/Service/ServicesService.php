@@ -14,29 +14,29 @@ class ServicesService extends Database
         $this->repository = new ServicesRepository();
     }
 
-    public function createService(string $name, string $description, array $imageFile): ?object
+    public function create(string $name, string $description, array $imageFile): ?object
     {
-        return $this->repository->createService($name, $description, $imageFile);
+        return $this->repository->create($name, $description, $imageFile);
     }
 
-    public function getAllServices(string $filter = null): array
+    public function all(string $filter = null): array
     {
-        return $this->repository->getAllServices($filter);
+        return $this->repository->all($filter);
     }
 
-    public function getServiceById(string $id): ?object
+    public function get(string $id): ?object
     {
-        return $this->repository->getServiceById($id);
+        return $this->repository->get($id);
     }
 
-    public function updateService(string $id, string $name, string $description, array $imageFile): ?object
+    public function edit(string $id, string $name, string $description, array $imageFile): ?object
     {
-        return $this->repository->updateService($id,$name, $description, $imageFile);
+        return $this->repository->edit($id,$name, $description, $imageFile);
     }
 
-    public function removeService(string $id): bool
+    public function remove(string $id): bool
     {
-        return $this->repository->removeService($id);
+        return $this->repository->remove($id);
     }
 
 }
